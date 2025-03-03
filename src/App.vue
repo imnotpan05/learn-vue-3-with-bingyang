@@ -1,85 +1,41 @@
 <template>
-  <h1>{{ message }}</h1>
-  <button @click="sortUsersByAge">Sort users by age</button>
-  <br />
-  <button @click="hideInactive = !hideInactive">{{ toggleButtonName }}</button>
-
-  <h2>Number of active users (computed property): {{ numberOfActiveUsers }}</h2>
-  <h2>Number of active users (computed property): {{ numberOfActiveUsers }}</h2>
-  <h2>Number of active users (computed property): {{ numberOfActiveUsers }}</h2>
-
-  <h2>
-    Number of active users (method call): {{ computeNumberOfActiveUsers() }}
-  </h2>
-  <h2>
-    Number of active users (method call): {{ computeNumberOfActiveUsers() }}
-  </h2>
-  <h2>
-    Number of active users (method call): {{ computeNumberOfActiveUsers() }}
-  </h2>
-  <table>
-    <tr>
-      <th>Index</th>
-      <th>Id</th>
-      <th>Name</th>
-      <th>Age</th>
-      <th>Operation</th>
-    </tr>
-    <tr v-for="(user, index) in filteredUsers" :key="user.id">
-      <td>{{ index + 1 }}</td>
-      <td>{{ user.id }}</td>
-      <td :class="{ inactive: !user.isActive }">
-        {{ user.name }}
-      </td>
-      <td>{{ user.age }}</td>
-      <td>
-        <button @click="user.isActive = !user.isActive">
-          {{ user.isActive ? 'Deactivate' : 'Restore' }}
-        </button>
-      </td>
-    </tr>
-  </table>
+  <div class="card">
+    <h1 ref="title">Hello, Template Refs!</h1>
+    <input type="text" ref="input" />
+    <button @click="printDomElements">Print DOM elements in console log</button>
+    <button @click="changeTitle">Change title</button>
+  </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
-let message = ref('Hello, Computed Properties!')
 
-const users = ref([
-  { id: 1001, name: 'John Smith', age: 26, isActive: false },
-  { id: 1002, name: 'Tom Doe', age: 16, isActive: false },
-  { id: 1003, name: 'Frankin Wong', age: 18, isActive: true }
-])
+let title = ref()
+const input = ref()
 
-let hideInactive = ref(false)
+function printDomElements() {
 
-function sortUsersByAge() {
-  users.value.sort((a, b) => a.age - b.age)
+  console.log(title.value)
+  console.log(input.value)
 }
 
-let toggleButtonName = computed(() =>
-  hideInactive.value ? 'Show all' : 'Hide inactive'
-)
+function changeTitle() {
 
-let numberOfActiveUsers = computed(() => {
-  console.log('computed property')
-  return users.value.filter((user) => user.isActive).length
-})
-
-let computeNumberOfActiveUsers = () => {
-  console.log('method call')
-  return users.value.filter((user) => user.isActive).length
+  title.value.innerText = 'Hello world!'
 }
 
-let filteredUsers = computed(() =>
-  hideInactive.value ? users.value.filter((user) => user.isActive) : users.value
+onMounted(()=>{
+  input.value.focus() 
+}
 )
 </script>
 
 <style scoped>
-.inactive {
-  color: red;
-  text-decoration: line-through;
+.card {
+  background-color: purple;
+  color: white;
+  padding: 20px 10px;
+  margin-bottom: 10px;
 }
 </style>
