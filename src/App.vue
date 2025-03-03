@@ -150,11 +150,9 @@ function increaseOne(id) {
 }
 
 function removeItem(id) {
-  // Step 1: find the index of the item to be deleted
   let index = shoppingCartItems.value.findIndex((item) => {
     return item.id == id
   })
-  // Step 2: delete this item from the list
   shoppingCartItems.value.splice(index, 1)
 }
 let subtotal = computed(() =>
@@ -172,16 +170,12 @@ let total = computed(
   () => subtotal.value + shippingEstimate.value + taxEstimate.value
 )
 
-// Automatically save to localStorage whenever any part of shoppingCartItems changes
-watch(
-  shoppingCartItems,
-  () => {
-    localStorage.setItem(
-      'hogwartsShoppingCart',
-      JSON.stringify(shoppingCartItems.value)
-    )
+watch (shoppingCartItems, ()=>{
+  localStorage.setItem(
+    'hogwartsShoppingCart', 
+    JSON.stringify(shoppingCartItems.value))
   },
-  { deep: true }
+  {deep: true}
 )
 </script>
 
