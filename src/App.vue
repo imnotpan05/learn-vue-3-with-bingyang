@@ -1,53 +1,15 @@
 <template>
-  <div style="background-color: orange; padding: 5px">
-    <p>This is the App component.</p>
-    <h2>{{ blogPostId }} - {{ blogPostTitle }}</h2>
-    <h4>{{ blogPostContent }}</h4>
-    <button @click="blogPostTitle = 'A different title'">Change blog post title</button>
-    <BlogPost
-      :id="blogPostId"
-      :blog-post-title="blogPostTitle"
-      :blogPostContent="blogPostContent"
-    >
-    </BlogPost>
-
-    <BlogPost
-      :id="blogPostId"
-      :blog-post-title="blogPostTitle"
-      :blog-post-content="blogPostContent"
-    >
-    </BlogPost>
-
-
-  </div>
-
-  <hr /> 
-
-  <!-- <BlogPost
+  <BlogPost
     v-for="post in posts"
     :key="post.id"
-    :id="post.id"
-    :blog-post-title="post.blogPostTitle"
-    :blog-post-content="post.blogPostContent"
+    v-bind="post"
+    @delete-blog-post="processDeletion"
   ></BlogPost>
-
-  <hr />
-
-  <BlogPost v-for="post in posts" :key="post.id" v-bind="post"></BlogPost> -->
 </template>
 
 <script setup>
-import BlogPost from '@/BlogPost.vue'
 import { ref } from 'vue'
-
-let blogPostId = ref(2) 
-let blogPostTitle = ref(
-  'HP and the Cursed Child Broadway production suspended until April'
-)
-let blogPostContent = ref(
-  'Adding to the earlier post, the Broadway production of Harry Potter and the Cursed Child has been...'
-)
-
+import BlogPost from './BlogPost.vue'
 let posts = ref([
   {
     id: 1,
@@ -75,6 +37,11 @@ let posts = ref([
       'It’s no secret that the Harry Potter series is a global phenomenon, having been translated into over 80 languages to date....'
   }
 ])
+
+function processDeletion(id) {
+  let index = posts.value.findIndex((item) => item.id == id)
+  posts.value.splice(index, 1)
+}
 </script>
 
 <style scoped></style>

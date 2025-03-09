@@ -5,8 +5,8 @@
       </p>
       <h2>{{ id }} - {{ blogPostTitle }}</h2>
       <h4>{{ blogPostContent }}</h4>
-        <button @click="changeBlogPostTitle">Change blog post title</button>
-
+      <button @click="$emit('delete-blog-post', id)">Delete post</button>
+      <button @click="emitDeletePostEvent(id)">Delete post</button>
     </div>
   </template>
   
@@ -14,12 +14,13 @@
   import { ref } from 'vue'
   
   let message = ref('This is the BlogPost component.')
-  //define props here:
-  let props = defineProps(['id', 'blogPostTitle', 'blogPostContent'])
- function changeBlogPostTitle(){
-    props.blogPostTitle = 'A different title'
- }
+  defineProps(['id', 'blogPostTitle', 'blogPostContent'])
+//   defineEmits(['delete-blog-post'])
 
+  const emit = defineEmits(['delete-blog-post'])
+  function emitDeletePostEvent(id) {
+    emit('delete-blog-post', id)
+  }
   </script>
   
   <style scoped>
